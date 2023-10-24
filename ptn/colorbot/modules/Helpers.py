@@ -41,81 +41,28 @@ def color_permission_check(roles: list):
     :return: List of color role IDs the user can have
     """
     # Using sets for faster lookup
-    roles_set = {role.id for role in roles}
+    roles_set = set(roles)
 
-    # Council members can have any color
-    if council_role() in roles_set:
-        print('Has council role')
-        return [
-            color_council_role(),
-            color_alumni_role(),
-            color_mod_role(),
-            color_somm_role(),
-            color_conn_role(),
-            color_fo_role(),
-            color_agent_role(),
-            color_cm_role(),
-            color_pillar_role(),
-            color_cco_role(),
-            color_grape_role()
-        ]
+    # Mapping roles to their respective color roles
+    role_to_color = {
+        council_role(): color_council_role(),
+        alumni_role(): color_alumni_role(),
+        mod_role(): color_mod_role(),
+        grape_role(): color_grape_role(),
+        somm_role(): color_somm_role(),
+        conn_role(): color_conn_role(),
+        fo_role(): color_fo_role(),
+        agent_role(): color_agent_role(),
+        cm_role(): color_cm_role(),
+        pillar_role(): color_pillar_role(),
+        cco_role(): color_cco_role()
+    }
 
-    # Council alumni can have any color but council
-    if alumni_role() in roles_set:
-        return [
-            color_alumni_role(),
-            color_mod_role(),
-            color_somm_role(),
-            color_conn_role(),
-            color_fo_role(),
-            color_agent_role(),
-            color_cm_role(),
-            color_pillar_role(),
-            color_cco_role(),
-            color_grape_role()
-        ]
-
-    # Mod can have any role but the council ones
-    if mod_role() in roles_set:
-        return [
-            color_mod_role(),
-            color_somm_role(),
-            color_conn_role(),
-            color_fo_role(),
-            color_agent_role(),
-            color_cm_role(),
-            color_pillar_role(),
-            color_cco_role(),
-            color_grape_role()
-        ]
-
-    allowed_colors = []
-
-    # Grape, Somm, Conn hierarchy
-    if grape_role() in roles_set:
-        allowed_colors.extend([color_grape_role(), color_somm_role(), color_conn_role()])
-    elif somm_role() in roles_set:
-        allowed_colors.extend([color_somm_role(), color_conn_role()])
-    elif conn_role() in roles_set:
-        allowed_colors.append(color_conn_role())
-
-    # FO, Agent hierarchy
-    if fo_role() in roles_set:
-        allowed_colors.extend([color_fo_role(), color_agent_role()])
-    elif agent_role() in roles_set:
-        allowed_colors.append(color_agent_role())
-
-    # CM, Pillar hierarchy
-    if cm_role() in roles_set:
-        allowed_colors.extend([color_cm_role(), color_pillar_role()])
-    elif pillar_role() in roles_set:
-        allowed_colors.append(color_pillar_role())
-
-    # CCO role (with no paired roles)
-    if cco_role() in roles_set:
-        allowed_colors.append(color_cco_role())
+    # Collecting colors for the roles the user has
+    allowed_colors = [role_to_color[role] for role in roles_set if role in role_to_color]
 
     return allowed_colors
+
 
 
 async def remove_color(interaction: discord.Interaction, member: discord.Member = None):

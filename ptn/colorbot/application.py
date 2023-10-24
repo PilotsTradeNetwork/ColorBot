@@ -20,10 +20,10 @@ print(f'PTN ModBot is connecting against production: {_production}.')
 
 
 def run():
-    asyncio.run(modbot())
+    asyncio.run(colorbot())
 
 
-async def modbot():
+async def colorbot():
     async with bot:
         await bot.add_cog(Commands(bot))
         await bot.start(TOKEN)

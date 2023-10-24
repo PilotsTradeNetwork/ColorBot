@@ -110,7 +110,7 @@ class Commands(commands.Cog):
         # check if user is allowed to have the color
         if role.id not in allowed_colors:
             try:
-                raise CustomError('You don\'t have access to that role or wrong role was passed!')
+                raise CustomError('You don\'t have access to that role!')
             except Exception as e:
                 return await on_generic_error(interaction=interaction, error=e)
 
