@@ -6,7 +6,7 @@ from importlib import util
 from setuptools import setup
 
 NAMESPACE = 'ptn'
-COMPONENT = 'modbot'
+COMPONENT = 'colorbot'
 
 here = Path().absolute()
 
@@ -26,9 +26,9 @@ setup(
     name=f'{NAMESPACE}.{COMPONENT}',
     version=metadata.__version__,
     packages=[
-        'ptn.modbot', # core
-        'ptn.modbot.botcommands', # user interactions
-        'ptn.modbot.database' # database
+        'ptn.colorbot', # core
+        'ptn.colorbot.botcommands', # user interactions
+        'ptn.colorbot.database' # database
         ],
     description='Pilots Trade Network Moderator Assistance Bot',
     long_description=long_description,
@@ -43,7 +43,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'modbot=ptn.modbot.application:run',
+            'colorbot=ptn.colorbot.application:run',
         ],
     },
     license='None',

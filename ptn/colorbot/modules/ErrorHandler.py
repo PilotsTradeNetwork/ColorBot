@@ -13,8 +13,8 @@ from discord import Interaction, app_commands
 from discord.app_commands import AppCommandError
 
 # import local constants
-import ptn.modbot.constants as constants
-from ptn.modbot.constants import bot, channel_botspam
+import ptn.colorbot.constants as constants
+from ptn.colorbot.constants import bot, channel_botspam
 
 # custom errors
 class CommandChannelError(app_commands.CheckFailure): # channel check error
