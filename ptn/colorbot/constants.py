@@ -45,17 +45,17 @@ PROD_CCO_ROLE = 800091463160430654  # PTN Certified Carrier Owner role
 PROD_GRAPE_ROLE = 1103957333467475968  # PTN Old Grape role
 
 # Production color roles
-PROD_COLOR_COUNCIL_ROLE = 1
-PROD_COLOR_ALUMNI_ROLE = 2
-PROD_COLOR_MOD_ROLE = 3
-PROD_COLOR_SOMM_ROLE = 4
-PROD_COLOR_CONN_ROLE = 5
-PROD_COLOR_FO_ROLE = 6
-PROD_COLOR_AGENT_ROLE = 7
-PROD_COLOR_CM_ROLE = 8
-PROD_COLOR_PILLAR_ROLE = 9
-PROD_COLOR_CCO_ROLE = 10
-PROD_COLOR_GRAPE_ROLE = 11
+PROD_COLOR_COUNCIL_ROLE = 1166846189220663457
+PROD_COLOR_ALUMNI_ROLE = 1166839581103095948
+PROD_COLOR_MOD_ROLE = 1166838461848883200
+PROD_COLOR_SOMM_ROLE = 1166838603024969728
+PROD_COLOR_CONN_ROLE = 1166839452904198244
+PROD_COLOR_FO_ROLE = 1166838799423246357
+PROD_COLOR_AGENT_ROLE = 1166839184007372870
+PROD_COLOR_CM_ROLE = 1166838704325795921
+PROD_COLOR_PILLAR_ROLE = 1166839065073700995
+PROD_COLOR_CCO_ROLE = 1166838944109957240
+PROD_COLOR_GRAPE_ROLE = 1166846264713941122
 
 # Testing variables
 TEST_DISCORD_GUILD = 682302487658496057  # PANTS server ID
@@ -219,6 +219,34 @@ color_roles = [
     color_grape_role()
 ]
 
+functional_roles = [
+    council_role(),
+    alumni_role(),
+    mod_role(),
+    grape_role(),
+    somm_role(),
+    conn_role(),
+    fo_role(),
+    agent_role(),
+    cm_role(),
+    pillar_role(),
+    cco_role()
+]
+
+# Mapping of functional roles to color roles
+role_to_color = {
+    council_role(): color_council_role(),
+    alumni_role(): color_alumni_role(),
+    mod_role(): color_mod_role(),
+    grape_role(): color_grape_role(),
+    somm_role(): color_somm_role(),
+    conn_role(): color_conn_role(),
+    fo_role(): color_fo_role(),
+    agent_role(): color_agent_role(),
+    cm_role(): color_cm_role(),
+    pillar_role(): color_pillar_role(),
+    cco_role(): color_cco_role()
+}
 async def get_guild():
     """
     Return bot guild instance for use in get_member()

@@ -12,7 +12,7 @@ from ptn.colorbot.constants import (
     cm_role,
     pillar_role,
     cco_role,
-    grape_role
+    grape_role, functional_roles
 )
 
 # The color role functions
@@ -64,8 +64,6 @@ def color_permission_check(roles: list):
     return allowed_colors
 
 
-
-
 async def remove_color(interaction: discord.Interaction, member: discord.Member = None):
     """Removes color roles from a member."""
 
@@ -80,9 +78,26 @@ async def remove_color(interaction: discord.Interaction, member: discord.Member 
         await member.remove_roles(*roles_to_remove)
         print(f"Removed {len(roles_to_remove)} color role(s) from {member.name}.")
     else:
-        print("{member.name} has no color roles.")
+        print(f"{member.name} has no color roles.")
 
 
 def is_color_role(role: discord.Role) -> bool:
     """Check if a given role is a color role."""
     return role.id in color_roles
+
+
+def highest_role(member: discord.Member, functional_roles: list):
+    """Return the highest functional role a member has based on its position in the Discord role list."""
+
+    # Get the actual role objects from the guild using their IDs
+    guild_roles = [role for role in member.guild.roles if role.id in functional_roles]
+
+    # Sort the guild roles by position in descending order (highest position first)
+    sorted_roles = sorted(guild_roles, key=lambda x: x.position, reverse=True)
+
+    # Iterate through the sorted roles and check if the member has each role
+    for role in sorted_roles:
+        if role in member.roles:
+            return role.id
+
+    return None

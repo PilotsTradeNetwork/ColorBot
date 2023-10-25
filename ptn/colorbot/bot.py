@@ -45,7 +45,7 @@ class ColorBot(commands.Bot):
             spamchannel = bot.get_channel(channel_botspam())
             embed = discord.Embed(
                 title="🌈 COLORBOT ONLINE",
-                description=f"🔨<@{bot.user.id}> connected, version **{__version__}**.",
+                description=f"🌈<@{bot.user.id}> connected, version **{__version__}**.",
                 color=EMBED_COLOUR_OK
             )
             await spamchannel.send(embed=embed)
