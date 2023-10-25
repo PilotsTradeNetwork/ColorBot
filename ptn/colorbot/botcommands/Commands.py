@@ -1,4 +1,6 @@
 # discord.py
+import asyncio
+
 import discord
 from discord import app_commands
 from discord.app_commands import describe
@@ -155,33 +157,47 @@ class Commands(commands.Cog):
                           description='Admin command for resetting all member\'s colors')
     @commands.has_any_role(constants.council_role())
     async def reset_member_all_colors(self, interaction: discord.Interaction):
-        guild = interaction.guild
 
-        functional_role_list = []
-        for role_id in functional_roles:
-            role = discord.utils.get(guild.roles, id=role_id)
-            if role:
-                functional_role_list.append(role)
+        # Notify user the process is starting
+        initial_message = discord.Embed(title=f'🔄 Starting to reset all elevated members\' colors...',
+                                        color=constants.EMBED_COLOUR_OK)
+        await interaction.response.send_message(embed=initial_message, ephemeral=True)
 
-        processed_members = set()  # Keep track of members who had their color removed
+        # Define a separate asynchronous task for the main operation
+        async def reset_colors():
+            guild = interaction.guild
 
-        for role in functional_role_list:
-            for member in role.members:
-                if member.id in processed_members:  # Skip if member's color was already processed
-                    continue
+            functional_role_list = []
+            for role_id in functional_roles:
+                role = discord.utils.get(guild.roles, id=role_id)
+                if role:
+                    functional_role_list.append(role)
 
-                top_role = highest_role(member, functional_roles)
-                if top_role:
-                    color_role_id = constants.role_to_color.get(top_role)
-                    color_role = discord.utils.get(guild.roles, id=color_role_id)
-                    if color_role:
-                        await remove_color(interaction=interaction, member=member)
-                        await member.add_roles(color_role)
-                        processed_members.add(member.id)  # Add member to processed set
+            processed_members = set()  # Keep track of members who had their color removed
 
-        embed = discord.Embed(title=f'✅ Reset all elevated members\' color!', color=constants.EMBED_COLOUR_OK)
-        try:
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-        except:
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            for role in functional_role_list:
+                for member in role.members:
+                    if member.id in processed_members:  # Skip if member's color was already processed
+                        continue
+
+                    top_role = highest_role(member, functional_roles)
+                    if top_role:
+                        color_role_id = constants.role_to_color.get(top_role)
+                        color_role = discord.utils.get(guild.roles, id=color_role_id)
+                        if color_role:
+                            await remove_color(interaction=interaction, member=member)
+                            await member.add_roles(color_role)
+                            processed_members.add(member.id)  # Add member to processed set
+
+            # Notify user the process is complete
+            completion_message = discord.Embed(title=f'✅ Finished resetting all elevated members\' colors.',
+                                               color=constants.EMBED_COLOUR_OK)
+            try:
+                await interaction.followup.send(embed=completion_message, ephemeral=True)
+            except Exception as e:
+                print(f"Error sending completion message: {e}")
+
+        # Launch the main operation as a separate asynchronous task
+        asyncio.create_task(reset_colors())
+
 
