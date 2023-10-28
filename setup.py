@@ -43,7 +43,7 @@ setup(
         'charset-normalizer==3.3.1',
         'DateTime==4.3',
         'discord==1.0.1',
-        'discord.py==2.3.2',
+        'discord.py>=2.3.2',
         'frozenlist==1.4.0',
         'idna==3.4',
         'multidict==6.0.4',
