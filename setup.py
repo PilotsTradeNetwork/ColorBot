@@ -33,7 +33,7 @@ setup(
         ],
     description='Pilots Trade Network Color Bot',
     long_description=long_description,
-    author='Thomas Kirtley',
+    author='Tug Nuggy',
     url='',
     install_requires=[
         'aiohttp==3.8.6',
