@@ -43,6 +43,8 @@ PROD_CM_ROLE = 863521103434350613  # PTN Community Mentor role
 PROD_PILLAR_ROLE = 863789660425027624  # PTN Community Pillar role
 PROD_CCO_ROLE = 800091463160430654  # PTN Certified Carrier Owner role
 PROD_GRAPE_ROLE = 1103957333467475968  # PTN Old Grape role
+PROD_PATH_ROLE = 1257039137366605865
+PROD_SPEC_ROLE = 1252708985501515967
 
 # Production color roles
 PROD_COLOR_COUNCIL_ROLE = 1166846189220663457
@@ -56,6 +58,8 @@ PROD_COLOR_CM_ROLE = 1166838704325795921
 PROD_COLOR_PILLAR_ROLE = 1166839065073700995
 PROD_COLOR_CCO_ROLE = 1166838944109957240
 PROD_COLOR_GRAPE_ROLE = 1166846264713941122
+PROD_COLOR_PATH_ROLE = 1257331399636025375
+PROD_COLOR_SPEC_ROLE = 1257331565126484019
 
 # Testing variables
 TEST_DISCORD_GUILD = 682302487658496057  # PANTS server ID
@@ -157,6 +161,12 @@ def cco_role():
 def grape_role():
     return PROD_GRAPE_ROLE if _production else TEST_GRAPE_ROLE
 
+def path_role():
+    return PROD_PATH_ROLE if _production else None
+
+def spec_role():
+    return PROD_SPEC_ROLE if _production else None
+
 
 def color_council_role():
     return PROD_COLOR_COUNCIL_ROLE if _production else TEST_COLOR_COUNCIL_ROLE
@@ -201,6 +211,12 @@ def color_cco_role():
 def color_grape_role():
     return PROD_COLOR_GRAPE_ROLE if _production else TEST_COLOR_GRAPE_ROLE
 
+def color_spec_role():
+    return PROD_COLOR_SPEC_ROLE if _production else None
+
+def color_path_role():
+    return PROD_COLOR_PATH_ROLE if _production else None
+
 
 any_moderation_role = [council_role(), mod_role()]
 any_elevated_role = [council_role(), mod_role(), alumni_role(), somm_role(), conn_role(), fo_role(), agent_role(),
@@ -216,7 +232,9 @@ color_roles = [
     color_cm_role(),
     color_pillar_role(),
     color_cco_role(),
-    color_grape_role()
+    color_grape_role(),
+    color_path_role(),
+    color_spec_role()
 ]
 
 functional_roles = [
@@ -230,7 +248,9 @@ functional_roles = [
     agent_role(),
     cm_role(),
     pillar_role(),
-    cco_role()
+    cco_role(),
+    spec_role(),
+    path_role()
 ]
 
 # Mapping of functional roles to color roles
@@ -245,7 +265,9 @@ role_to_color = {
     agent_role(): color_agent_role(),
     cm_role(): color_cm_role(),
     pillar_role(): color_pillar_role(),
-    cco_role(): color_cco_role()
+    cco_role(): color_cco_role(),
+    path_role(): color_path_role(),
+    spec_role(): color_spec_role()
 }
 async def get_guild():
     """

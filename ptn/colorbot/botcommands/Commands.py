@@ -17,38 +17,6 @@ from ptn.colorbot.constants import council_role, mod_role, functional_roles
 from ptn.colorbot.modules.ErrorHandler import on_app_command_error, CustomError, on_generic_error
 from ptn.colorbot.modules.Helpers import color_permission_check, remove_color, is_color_role, highest_role
 
-"""
-A primitive global error handler for text commands.
-returns: error message to user and log
-"""
-
-
-@bot.listen()
-async def on_command_error(ctx, error):
-    print(error)
-    if isinstance(error, commands.BadArgument):
-        message = f'Bad argument: {error}'
-
-    elif isinstance(error, commands.CommandNotFound):
-        message = f"Sorry, were you talking to me? I don't know that command."
-
-    elif isinstance(error, commands.MissingRequiredArgument):
-        message = f"Sorry, that didn't work.\n• Check you've included all required arguments." \
-                  "\n• If using quotation marks, check they're opened *and* closed, and are in the proper place.\n• Check quotation" \
-                  " marks are of the same type, i.e. all straight or matching open/close smartquotes."
-
-    elif isinstance(error, commands.MissingPermissions):
-        message = 'Sorry, you\'re missing the required permission for this command.'
-
-    elif isinstance(error, commands.MissingAnyRole):
-        message = f'You require one of the following roles to use this command:\n<@&{council_role()}> • <@&{mod_role()}>'
-
-    else:
-        message = f'Sorry, that didn\'t work: {error}'
-
-    embed = discord.Embed(description=f"❌ {message}", color=constants.EMBED_COLOUR_ERROR)
-    await ctx.send(embed=embed)
-
 
 class Commands(commands.Cog):
     def __init__(self, bot: commands.Cog):
@@ -198,6 +166,6 @@ class Commands(commands.Cog):
                 print(f"Error sending completion message: {e}")
 
         # Launch the main operation as a separate asynchronous task
-        asyncio.create_task(reset_colors())
+        await asyncio.create_task(reset_colors())
 
 
