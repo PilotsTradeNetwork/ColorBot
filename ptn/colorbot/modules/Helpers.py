@@ -12,7 +12,7 @@ from ptn.colorbot.constants import (
     cm_role,
     pillar_role,
     cco_role,
-    grape_role, functional_roles
+    grape_role, functional_roles, role_to_color
 )
 
 # The color role functions
@@ -42,21 +42,6 @@ def color_permission_check(roles: list):
     """
     # Transforming the list of Role objects to a set of role IDs
     roles_set = {role.id for role in roles}
-
-    # Mapping roles to their respective color roles
-    role_to_color = {
-        council_role(): color_council_role(),
-        alumni_role(): color_alumni_role(),
-        mod_role(): color_mod_role(),
-        grape_role(): color_grape_role(),
-        somm_role(): color_somm_role(),
-        conn_role(): color_conn_role(),
-        fo_role(): color_fo_role(),
-        agent_role(): color_agent_role(),
-        cm_role(): color_cm_role(),
-        pillar_role(): color_pillar_role(),
-        cco_role(): color_cco_role()
-    }
 
     # Collecting colors for the roles the user has
     allowed_colors = [role_to_color[role] for role in roles_set if role in role_to_color]
