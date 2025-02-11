@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0
+- added prometheus logging
+- Changelog rename, connection message fix
+
 ## 0.0.2
 Added:
 - Build database on startup
