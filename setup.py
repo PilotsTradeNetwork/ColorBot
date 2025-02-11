@@ -44,6 +44,7 @@ setup(
         'DateTime==4.3',
         'discord==1.0.1',
         'discord.py>=2.3.2',
+        'discord-ext-prometheus==0.2.0',
         'frozenlist==1.4.0',
         'idna==3.4',
         'multidict==6.0.4',

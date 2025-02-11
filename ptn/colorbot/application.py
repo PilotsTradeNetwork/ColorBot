@@ -7,6 +7,8 @@ The Python script that starts the bot.
 import asyncio
 import os
 
+from discord.ext.prometheus import PrometheusCog
+
 # import bot Cogs
 from ptn.colorbot.botcommands.Commands import Commands
 
@@ -26,6 +28,7 @@ def run():
 async def colorbot():
     async with bot:
         await bot.add_cog(Commands(bot))
+        await bot.add_cog(PrometheusCog(bot))
         await bot.start(TOKEN)
 
 
