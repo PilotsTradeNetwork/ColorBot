@@ -16,7 +16,7 @@ from ptn.colorbot.bot import bot
 
 print(f"Data dir is {DATA_DIR} from {os.path.join(os.getcwd(), 'ptn', 'colorbot', DATA_DIR, 'ptn/colorbot/.env')}")
 
-print(f'PTN ModBot is connecting against production: {_production}.')
+print(f'PTN ColorBot is connecting against production: {_production}.')
 
 
 def run():
