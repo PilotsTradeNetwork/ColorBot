@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.3
+## 0.1.0
 - added prometheus logging
 - Changelog rename, connection message fix
 
