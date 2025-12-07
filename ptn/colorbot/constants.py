@@ -6,30 +6,28 @@ Depends on: nothing
 
 # libraries
 import ast
-import os
-import discord
-import sys
 import logging
+import os
+import sys
+
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
 # Define whether the bot is in testing or live mode. Default is testing mode.
-_production = ast.literal_eval(os.environ.get('PTN_COLORBOT_SERVICE', 'False'))
+_production = ast.literal_eval(os.environ.get("PTN_COLORBOT_SERVICE", "False"))
 
 # define paths
 TESTING_DATA_PATH = os.getcwd()  # defines the path for use in a local testing environment
-DATA_DIR = os.getenv('PTN_COLORBOT_DATA_DIR', TESTING_DATA_PATH)
+DATA_DIR = os.getenv("PTN_COLORBOT_DATA_DIR", TESTING_DATA_PATH)
 
 # Get the discord token from the local .env file. Deliberately not hosted in the repo or Discord takes the bot down
 # because the keys are exposed. DO NOT HOST IN THE PUBLIC REPO.
 # load_dotenv(os.path.join(DATA_DIR, '.env'))
-load_dotenv(os.path.join(DATA_DIR, '.env'))
+load_dotenv(os.path.join(DATA_DIR, ".env"))
 
 # define bot token
-TOKEN = os.getenv('COLORBOT_DISCORD_TOKEN_PROD') if _production else os.getenv('COLORBOT_DISCORD_TOKEN_TESTING')
-
-# define bot object
-bot = commands.Bot(command_prefix='c!', intents=discord.Intents.all())
+TOKEN = os.getenv("COLORBOT_DISCORD_TOKEN_PROD") if _production else os.getenv("COLORBOT_DISCORD_TOKEN_TESTING")
 
 # Production variables
 PROD_DISCORD_GUILD = 800080948716503040  # PTN server ID
@@ -85,25 +83,25 @@ TEST_COLOR_ALUMNI_ROLE = 1422738963998703668
 TEST_COLOR_SOMM_ROLE = 1422739451456651425
 TEST_COLOR_CONN_ROLE = 1422739534541754461
 TEST_COLOR_FO_ROLE = 1422739631190966362
-TEST_COLOR_AGENT_ROLE  = 1422739709314207844
+TEST_COLOR_AGENT_ROLE = 1422739709314207844
 TEST_COLOR_CM_ROLE = 1422739779770122312
 TEST_COLOR_PILLAR_ROLE = 1422739853279498323
-TEST_COLOR_CCO_ROLE =  1422739956882866227
-TEST_COLOR_GRAPE_ROLE  = 1422740028349743194
+TEST_COLOR_CCO_ROLE = 1422739956882866227
+TEST_COLOR_GRAPE_ROLE = 1422740028349743194
 TEST_COLOR_PATH_ROLE = 1422740084448563240
 TEST_COLOR_SPEC_ROLE = 1422740133035380768
 
 # Embed colours
 EMBED_COLOUR_ERROR = 0x800000  # dark red
-EMBED_COLOUR_QU = 0x00d9ff  # que?
-EMBED_COLOUR_OK = 0x80ff80  # we're good here thanks, how are you?
+EMBED_COLOUR_QU = 0x00D9FF  # que?
+EMBED_COLOUR_OK = 0x80FF80  # we're good here thanks, how are you?
 
 # random gifs and images
 error_gifs = [
-    'https://media.tenor.com/-DSYvCR3HnYAAAAC/beaker-fire.gif',  # muppets
-    'https://media.tenor.com/M1rOzWS3NsQAAAAC/nothingtosee-disperse.gif',  # naked gun
-    'https://media.tenor.com/oSASxe-6GesAAAAC/spongebob-patrick.gif',  # spongebob
-    'https://media.tenor.com/u-1jz7ttHhEAAAAC/angry-panda-rage.gif'  # panda smash
+    "https://media.tenor.com/-DSYvCR3HnYAAAAC/beaker-fire.gif",  # muppets
+    "https://media.tenor.com/M1rOzWS3NsQAAAAC/nothingtosee-disperse.gif",  # naked gun
+    "https://media.tenor.com/oSASxe-6GesAAAAC/spongebob-patrick.gif",  # spongebob
+    "https://media.tenor.com/u-1jz7ttHhEAAAAC/angry-panda-rage.gif",  # panda smash
 ]
 
 
@@ -169,8 +167,10 @@ def cco_role():
 def grape_role():
     return PROD_GRAPE_ROLE if _production else TEST_GRAPE_ROLE
 
+
 def path_role():
     return PROD_PATH_ROLE if _production else TEST_PATH_ROLE
+
 
 def spec_role():
     return PROD_SPEC_ROLE if _production else TEST_SPEC_ROLE
@@ -211,16 +211,31 @@ def color_cco_role():
 def color_grape_role():
     return PROD_COLOR_GRAPE_ROLE if _production else TEST_COLOR_GRAPE_ROLE
 
+
 def color_spec_role():
     return PROD_COLOR_SPEC_ROLE if _production else TEST_COLOR_SPEC_ROLE
+
 
 def color_path_role():
     return PROD_COLOR_PATH_ROLE if _production else TEST_COLOR_PATH_ROLE
 
 
 any_moderation_role = [council_role(), mod_role()]
-any_elevated_role = [council_role(), mod_role(), alumni_role(), somm_role(), conn_role(), fo_role(), agent_role(),
-                     cm_role(), pillar_role(), cco_role(), grape_role(), spec_role(), path_role()]
+any_elevated_role = [
+    council_role(),
+    mod_role(),
+    alumni_role(),
+    somm_role(),
+    conn_role(),
+    fo_role(),
+    agent_role(),
+    cm_role(),
+    pillar_role(),
+    cco_role(),
+    grape_role(),
+    spec_role(),
+    path_role(),
+]
 color_roles = [
     color_alumni_role(),
     color_somm_role(),
@@ -232,7 +247,7 @@ color_roles = [
     color_cco_role(),
     color_grape_role(),
     color_path_role(),
-    color_spec_role()
+    color_spec_role(),
 ]
 
 functional_roles = [
@@ -246,7 +261,7 @@ functional_roles = [
     pillar_role(),
     cco_role(),
     spec_role(),
-    path_role()
+    path_role(),
 ]
 
 # Mapping of functional roles to color roles
@@ -261,30 +276,25 @@ role_to_color = {
     pillar_role(): color_pillar_role(),
     cco_role(): color_cco_role(),
     path_role(): color_path_role(),
-    spec_role(): color_spec_role()
+    spec_role(): color_spec_role(),
 }
-async def get_guild():
-    """
-    Return bot guild instance for use in get_member()
-    """
-    return bot.get_guild(bot_guild())
 
 # define the logger for discord client and asyncpraw.
 # TODO: use PTNLogger and extend to all MAB Logging
 log_handler = logging.StreamHandler(sys.stdout)
 
-loglevel_input = os.getenv('COLOR_BOT_LOG_LEVEL', 'INFO')
+loglevel_input = os.getenv("COLOR_BOT_LOG_LEVEL", "INFO")
 match loglevel_input:
-    case 'CRITICAL':
+    case "CRITICAL":
         LOG_LEVEL = logging.CRITICAL
 
-    case 'ERROR':
+    case "ERROR":
         LOG_LEVEL = logging.ERROR
 
-    case 'INFO':
+    case "INFO":
         LOG_LEVEL = logging.INFO
 
-    case 'DEBUG':
+    case "DEBUG":
         LOG_LEVEL = logging.DEBUG
 
     case _:
