@@ -8,7 +8,6 @@ Dependencies: Constants, Metadata
 """
 
 # import libraries
-import logging
 
 # import discord
 import discord
@@ -16,7 +15,7 @@ from discord.ext import commands
 
 # import constants
 from ptn.colorbot._metadata import __version__
-from ptn.colorbot.constants import EMBED_COLOUR_OK, bot_guild, channel_botdev
+from ptn_utils.global_constants import EMBED_COLOUR_OK, DISCORD_GUILD, CHANNEL_DEV_COLOR_BOT
 
 # import utils
 from ptn_utils.get_or_fetch import GetOrFetch
@@ -33,18 +32,18 @@ class ColorBot(commands.Bot):
         intents.guilds = True
         intents.members = True
         intents.messages = True
+        self.logger = None
 
         super().__init__(
             command_prefix=commands.when_mentioned_or("🌈"), intents=intents, chunk_guilds_at_startup=False
         )
-        self.get_or_fetch = GetOrFetch(self, bot_guild())
+        self.get_or_fetch = GetOrFetch(self, DISCORD_GUILD)
 
     async def on_ready(self):
         try:
             # TODO: this should be moved to an on_setup hook
-            logging.info(f"{bot.user.name} version: {__version__} has connected to Discord!")
-            guild = await self.get_or_fetch.guild(bot_guild())
-            devchannel = await self.get_or_fetch.channel(channel_botdev())
+            bot.logger.info(f"{bot.user.name} version: {__version__} has connected to Discord!")
+            devchannel = await self.get_or_fetch.channel(CHANNEL_DEV_COLOR_BOT)
 
             embed = discord.Embed(
                 title="🌈 COLORBOT ONLINE (on_ready)",
@@ -54,10 +53,10 @@ class ColorBot(commands.Bot):
             await devchannel.send(embed=embed)
 
         except Exception as e:
-            logging.exception(e)
+            bot.logger.exception(e)
 
     async def on_disconnect(self):
-        logging.warning(f"🔌colorbot has disconnected from discord server, version: {__version__}.")
+        bot.logger.warning(f"🔌colorbot has disconnected from discord server, version: {__version__}.")
 
 
 bot = ColorBot()
