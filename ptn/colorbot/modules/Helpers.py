@@ -1,17 +1,12 @@
-import logging
-from typing import Optional
 
 import discord
-from discord import Guild, Role, Thread
-from discord.abc import GuildChannel
-from discord.errors import NotFound
 
 from ptn.colorbot.bot import bot
 
 # functions
 # The color role functions
 # regular roles to check
-from ptn.colorbot.constants import bot_guild, color_roles, council_role, mod_role, role_to_color
+from ptn_utils.global_constants import color_roles, ROLE_COUNCIL, ROLE_MOD, role_to_color
 
 
 def color_permission_check(roles: list):
@@ -23,12 +18,17 @@ def color_permission_check(roles: list):
     """
     # Transforming the list of Role objects to a set of role IDs
     roles_set = {role.id for role in roles}
+    bot.logger.debug("User's Roles:")
+    bot.logger.debug(roles_set)
 
     # Collecting colors for the roles the user has
     allowed_colors = [role_to_color[role] for role in roles_set if role in role_to_color]
+    bot.logger.debug("User's allowed colors:")
+    bot.logger.debug(allowed_colors)
 
     # flag mods and councilors
-    is_mod_council = council_role() in roles_set or mod_role() in roles_set
+    is_mod_council = ROLE_COUNCIL in roles_set or ROLE_MOD in roles_set
+    bot.logger.debug(f"User is Mod/Council: {is_mod_council}")
 
     return allowed_colors, is_mod_council
 
@@ -45,9 +45,9 @@ async def remove_color(interaction: discord.Interaction, member: discord.Member 
 
     if roles_to_remove:
         await member.remove_roles(*roles_to_remove)
-        logging.info(f"Removed {len(roles_to_remove)} color role(s) from {member.name}.")
+        bot.logger.info(f"Removed {len(roles_to_remove)} color role(s) from {member.name}.")
     else:
-        logging.info(f"{member.name} has no color roles.")
+        bot.logger.info(f"{member.name} has no color roles.")
 
 
 def is_color_role(role: discord.Role) -> bool:
