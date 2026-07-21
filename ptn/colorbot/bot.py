@@ -32,7 +32,6 @@ class ColorBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.none()
         intents.guilds = True
-        intents.members = True
         intents.messages = True
 
         super().__init__(command_prefix=commands.when_mentioned_or('🌈'), intents=intents, chunk_guilds_at_startup=False)

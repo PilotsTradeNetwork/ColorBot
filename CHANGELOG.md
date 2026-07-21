@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.1
+- Remove privileged intents (IndorilReborn)
+
 ## 0.2.0
 - [#14](https://github.com/PilotsTradeNetwork/ColorBot/pull/14) Add selectable discord.py logging (axleantilles)
 - [#14](https://github.com/PilotsTradeNetwork/ColorBot/pull/14) change botspam channel to dev channel (axleantilles)
